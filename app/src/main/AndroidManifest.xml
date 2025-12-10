@@ -17,7 +17,10 @@
 
         <!-- Main Activity (Launcher) -->
         <activity
-            android:name=".MainActivity"
+            android:name=".DonationPage"
+            android:exported="false" />
+        <activity
+            android:name=".CampaignPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
