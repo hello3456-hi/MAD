@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MAD">
         <activity
-            android:name=".MainActivity"
+            android:name=".DonationPage"
+            android:exported="false" />
+        <activity
+            android:name=".CampaignPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
