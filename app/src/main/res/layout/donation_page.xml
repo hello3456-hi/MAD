@@ -155,7 +155,6 @@
                 android:hint="Enter custom amount"
                 android:padding="12dp"
                 android:textSize="15sp"
-                android:src="@drawable/money_logo"
                 android:background="@drawable/rounded_white"
                 android:inputType="number"
                 android:drawablePadding="10dp"/>
