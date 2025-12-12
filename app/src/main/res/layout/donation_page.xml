@@ -149,6 +149,7 @@
         </RadioGroup>
 
             <EditText
+                android:id="@+id/custom_amount"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
@@ -191,6 +192,7 @@
                 android:layout_marginEnd="12dp"/>
 
             <TextView
+                android:id="@+id/meal_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Donates 1 meal"
@@ -235,9 +237,9 @@
                         android:button="@null"
                         android:background="@drawable/rounded_white"/>
 
-                    <!-- Google Pay -->
+                    <!-- PayPal -->
                     <RadioButton
-                        android:id="@+id/payPaypal"
+                        android:id="@+id/payPayPal"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center"
@@ -263,6 +265,7 @@
 
         <!-- Donate Button -->
         <Button
+            android:id="@+id/donate_food"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="30dp"

@@ -88,10 +88,10 @@
                 android:indeterminate="false"/>
 
             <Button
+                android:id="@+id/donate_sudan"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="#F57C2A"
-                android:backgroundTint="#FFBA3B"
                 android:text="Donate"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
@@ -162,6 +162,7 @@
                 android:indeterminate="false"/>
 
             <Button
+                android:id="@+id/donate_ukraine"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="Donate"
@@ -235,6 +236,7 @@
                 android:indeterminate="false"/>
 
             <Button
+                android:id="@+id/donate_india"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="Donate"
@@ -308,6 +310,7 @@
                 android:indeterminate="false"/>
 
             <Button
+                android:id="@+id/donate_vietnam"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="Donate"

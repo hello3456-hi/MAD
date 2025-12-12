@@ -95,7 +95,7 @@
                 android:max="100"
                 android:progress="60"
                 android:progressTint="#4CAF50"
-                android:progressBackgroundTint="#E0E0E0"/>
+                android:indeterminate="false"/>
 
             <TextView
                 android:layout_width="wrap_content"

@@ -1,25 +1,52 @@
 package com.example.mad;
 
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import android.content.Intent;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class CampaignPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.campaign_page);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            //testing
-            return insets;
-        });
+
+        // ---------- 1. Find all Progress Bars ----------
+        ProgressBar sudanBar = findViewById(R.id.progress_sudan);
+        ProgressBar ukraineBar = findViewById(R.id.progress_ukraine);
+        ProgressBar indiaBar = findViewById(R.id.progress_india);
+        ProgressBar vietnamBar = findViewById(R.id.progress_vietnam);
+
+        // ---------- 2. Update Progress Bars ----------
+        updateProgress(sudanBar, 12500, 20000);
+        updateProgress(ukraineBar, 8700, 15000);
+        updateProgress(indiaBar, 5200, 10000);
+        updateProgress(vietnamBar, 18300, 25000);
+
+        // ---------- 3. Donate Buttons ----------
+        Button donateSudan = findViewById(R.id.donate_sudan);
+        Button donateUkraine = findViewById(R.id.donate_ukraine);
+        Button donateIndia = findViewById(R.id.donate_india);
+        Button donateVietnam = findViewById(R.id.donate_vietnam);
+
+        donateSudan.setOnClickListener(v -> openDonationPage());
+        donateUkraine.setOnClickListener(v -> openDonationPage());
+        donateIndia.setOnClickListener(v -> openDonationPage());
+        donateVietnam.setOnClickListener(v -> openDonationPage());
+    }
+
+    // ---------- Function to calculate and update progress ----------
+    private void updateProgress(ProgressBar bar, int raised, int goal) {
+        int percentage = (int) (((double) raised / goal) * 100);
+        bar.setProgress(percentage);
+    }
+
+    // ---------- Function to open donation page ----------
+    private void openDonationPage() {
+        Intent intent = new Intent(CampaignPage.this, DonationPage.class);
+        startActivity(intent);
     }
 }
