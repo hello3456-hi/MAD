@@ -9,10 +9,8 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 public class DonationPage extends AppCompatActivity {
 
@@ -38,6 +36,14 @@ public class DonationPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.donation_page);
 
+        String country = getIntent().getStringExtra("country");
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        TextView btnBack = findViewById(R.id.btn_back);
+
         // ----------- Find Amount Buttons -----------
         r5 = findViewById(R.id.r_amount5);
         r10 = findViewById(R.id.r_amount10);
@@ -55,6 +61,13 @@ public class DonationPage extends AppCompatActivity {
 
         donateBtn = findViewById(R.id.donate_food);
 
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(DonationPage.this, CampaignPage.class);
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            startActivity(intent);
+        });
 
         // ----------- Handle Amount Selection -----------
         r5.setOnClickListener(v -> selectPresetAmount(5));
@@ -63,6 +76,23 @@ public class DonationPage extends AppCompatActivity {
         r50.setOnClickListener(v -> selectPresetAmount(50));
         r100.setOnClickListener(v -> selectPresetAmount(100));
         r200.setOnClickListener(v -> selectPresetAmount(200));
+
+        // Create an array of all preset buttons
+        RadioButton[] presetButtons = {r5, r10, r25, r50, r100, r200};
+
+        // When a preset button is clicked
+        for (RadioButton btn : presetButtons) {
+            btn.setOnClickListener(v -> {
+                selectedAmount = Integer.parseInt(btn.getText().toString().replace("$","")); // assuming text like "$5"
+                customAmount.setText(""); // clear custom
+                // uncheck all others
+                for (RadioButton otherBtn : presetButtons) {
+                    if (otherBtn != btn) otherBtn.setChecked(false);
+                }
+                updateMealDescription();
+            });
+        }
+
 
         // ----------- Custom Amount Logic -----------
         customAmount.addTextChangedListener(new TextWatcher() {
@@ -118,17 +148,36 @@ public class DonationPage extends AppCompatActivity {
             // Example: user donated to Sudan
             int donationAmount = selectedAmount; // from radio/custom input
 
-            int currentRaised = prefs.getInt(DonationData.sudan_raised, 12500);
-            int newRaised = currentRaised + donationAmount;
+            int currentRaised = 0;
 
-            editor.putInt(DonationData.sudan_raised, newRaised);
+            switch (country) {
+                case "Sudan":
+                    currentRaised = prefs.getInt(DonationData.sudan_raised, 12500);
+                    editor.putInt(DonationData.sudan_raised, currentRaised + donationAmount);
+                    break;
+
+                case "Ukraine":
+                    currentRaised = prefs.getInt(DonationData.ukraine_raised, 8700);
+                    editor.putInt(DonationData.ukraine_raised, currentRaised + donationAmount);
+                    break;
+
+                case "India":
+                    currentRaised = prefs.getInt(DonationData.india_raised, 5200);
+                    editor.putInt(DonationData.india_raised, currentRaised + donationAmount);
+                    break;
+
+                case "Vietnam":
+                    currentRaised = prefs.getInt(DonationData.vietnam_raised, 18300);
+                    editor.putInt(DonationData.vietnam_raised, currentRaised + donationAmount);
+                    break;
+            }
+
             editor.apply();
-
 
 
             // Navigate to success page
             Intent intent = new Intent(DonationPage.this, DonationSuccess.class);
-            intent.putExtra("country", "Sudan");
+            intent.putExtra("country", country);
             intent.putExtra("donationAmount", selectedAmount);
             startActivity(intent);
         });

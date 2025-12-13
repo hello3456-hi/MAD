@@ -89,6 +89,7 @@
                 android:paddingBottom="4dp"/>
 
             <TextView
+                android:id="@+id/country_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sudan"
@@ -116,6 +117,22 @@
                 android:textColor="#666666"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/return_to_campaign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Return to Campaign"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2E7D32"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"/>
+
 
     </LinearLayout>
 

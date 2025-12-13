@@ -10,6 +10,18 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <TextView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Back"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:layout_gravity="start"
+            android:clickable="true"
+            android:focusable="true"/>
+
         <!-- Donation Icon -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,108 +57,108 @@
             android:padding="20dp"
             android:background="@drawable/rounded_orange">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Select Amount"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Amount"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
-        <RadioGroup
-            android:id="@+id/amountGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="15dp">
-
-            <!-- Select Amount (Row 1) -->
-            <LinearLayout
+            <RadioGroup
+                android:id="@+id/amountGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:orientation="vertical"
+                android:layout_marginTop="15dp">
 
-                <RadioButton
-                    android:id="@+id/r_amount5"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="$5"
-                    android:textSize="16sp"
-                    android:button="@null"
-                    android:background="@drawable/rounded_white"
-                    android:layout_marginRight="10dp"/>
+                <!-- Select Amount (Row 1) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
-                <RadioButton
-                    android:id="@+id/r_amount10"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="$10"
-                    android:textSize="16sp"
-                    android:button="@null"
-                    android:background="@drawable/rounded_white"
-                    android:layout_marginRight="10dp"/>
+                    <RadioButton
+                        android:id="@+id/r_amount5"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="$5"
+                        android:textSize="16sp"
+                        android:button="@null"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginRight="10dp"/>
 
-                <RadioButton
-                    android:id="@+id/r_amount25"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="$25"
-                    android:textSize="16sp"
-                    android:button="@null"
-                    android:background="@drawable/rounded_white"/>
-            </LinearLayout>
+                    <RadioButton
+                        android:id="@+id/r_amount10"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="$10"
+                        android:textSize="16sp"
+                        android:button="@null"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginRight="10dp"/>
 
-            <!-- Select Amount (Row 2) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:weightSum="3">
+                    <RadioButton
+                        android:id="@+id/r_amount25"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="$25"
+                        android:textSize="16sp"
+                        android:button="@null"
+                        android:background="@drawable/rounded_white"/>
+                </LinearLayout>
 
-                <RadioButton
-                    android:id="@+id/r_amount50"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="$50"
-                    android:textSize="16sp"
-                    android:button="@null"
-                    android:background="@drawable/rounded_white"
-                    android:layout_marginRight="10dp"/>
+                <!-- Select Amount (Row 2) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="3">
 
-                <RadioButton
-                    android:id="@+id/r_amount100"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="$100"
-                    android:textSize="16sp"
-                    android:button="@null"
-                    android:background="@drawable/rounded_white"
-                    android:layout_marginRight="10dp"/>
+                    <RadioButton
+                        android:id="@+id/r_amount50"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="$50"
+                        android:textSize="16sp"
+                        android:button="@null"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginRight="10dp"/>
 
-                <RadioButton
-                    android:id="@+id/r_amount200"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="$200"
-                    android:textSize="16sp"
-                    android:button="@null"
-                    android:background="@drawable/rounded_white"/>
-            </LinearLayout>
+                    <RadioButton
+                        android:id="@+id/r_amount100"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="$100"
+                        android:textSize="16sp"
+                        android:button="@null"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginRight="10dp"/>
 
-        </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/r_amount200"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="$200"
+                        android:textSize="16sp"
+                        android:button="@null"
+                        android:background="@drawable/rounded_white"/>
+                </LinearLayout>
+
+            </RadioGroup>
 
             <EditText
                 android:id="@+id/custom_amount"
@@ -183,84 +195,84 @@
                 android:orientation="horizontal"
                 android:weightSum="3">
 
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/food_logo"
-                android:padding="10dp"
-                android:scaleType="centerCrop"
-                android:layout_marginEnd="12dp"/>
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/food_logo"
+                    android:padding="10dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginEnd="12dp"/>
 
-            <TextView
-                android:id="@+id/meal_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Donates 1 meal"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:paddingTop="7dp"/>
+                <TextView
+                    android:id="@+id/meal_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Donates 1 meal"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:paddingTop="7dp"/>
             </LinearLayout>
 
         </LinearLayout>
 
-            <!-- Payment Method -->
-            <LinearLayout
+        <!-- Payment Method -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:padding="20dp"
+            android:background="@drawable/rounded_orange">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Method"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <RadioGroup
+                android:id="@+id/paymentGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="25dp"
-                android:padding="20dp"
-                android:background="@drawable/rounded_orange">
+                android:layout_marginTop="15dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Payment Method"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <RadioGroup
-                    android:id="@+id/paymentGroup"
+                <!-- Credit Card -->
+                <RadioButton
+                    android:id="@+id/payCredit"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="15dp">
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:text="Credit Card"
+                    android:textSize="16sp"
+                    android:button="@null"
+                    android:background="@drawable/rounded_white"/>
 
-                    <!-- Credit Card -->
-                    <RadioButton
-                        android:id="@+id/payCredit"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center"
-                        android:text="Credit Card"
-                        android:textSize="16sp"
-                        android:button="@null"
-                        android:background="@drawable/rounded_white"/>
+                <!-- PayPal -->
+                <RadioButton
+                    android:id="@+id/payPayPal"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="PayPal"
+                    android:textSize="16sp"
+                    android:button="@null"
+                    android:background="@drawable/rounded_white"/>
 
-                    <!-- PayPal -->
-                    <RadioButton
-                        android:id="@+id/payPayPal"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:text="PayPal"
-                        android:textSize="16sp"
-                        android:button="@null"
-                        android:background="@drawable/rounded_white"/>
-
-                    <!-- Apple Pay -->
-                    <RadioButton
-                        android:id="@+id/payApple"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:text="Apple Pay"
-                        android:textSize="16sp"
-                        android:button="@null"
-                        android:background="@drawable/rounded_white"/>
-                </RadioGroup>
+                <!-- Apple Pay -->
+                <RadioButton
+                    android:id="@+id/payApple"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="Apple Pay"
+                    android:textSize="16sp"
+                    android:button="@null"
+                    android:background="@drawable/rounded_white"/>
+            </RadioGroup>
         </LinearLayout>
 
         <!-- Donate Button -->

@@ -33,10 +33,11 @@ public class CampaignPage extends AppCompatActivity {
         Button donateIndia = findViewById(R.id.donate_india);
         Button donateVietnam = findViewById(R.id.donate_vietnam);
 
-        donateSudan.setOnClickListener(v -> openDonationPage());
-        donateUkraine.setOnClickListener(v -> openDonationPage());
-        donateIndia.setOnClickListener(v -> openDonationPage());
-        donateVietnam.setOnClickListener(v -> openDonationPage());
+        donateSudan.setOnClickListener(v -> openDonationPage("Sudan"));
+        donateUkraine.setOnClickListener(v -> openDonationPage("Ukraine"));
+        donateIndia.setOnClickListener(v -> openDonationPage("India"));
+        donateVietnam.setOnClickListener(v -> openDonationPage("Vietnam"));
+
     }
 
     @Override
@@ -59,8 +60,9 @@ public class CampaignPage extends AppCompatActivity {
     }
 
     // ---------- Function to open donation page ----------
-    private void openDonationPage() {
+    private void openDonationPage(String country) {
         Intent intent = new Intent(CampaignPage.this, DonationPage.class);
+        intent.putExtra("country", country);
         startActivity(intent);
     }
 }

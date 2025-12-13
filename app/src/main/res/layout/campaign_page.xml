@@ -91,8 +91,8 @@
                 android:id="@+id/donate_sudan"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="#F57C2A"
                 android:text="Donate"
+                android:backgroundTint="#FFA726"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 
@@ -166,7 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="Donate"
-                android:background="#F57C2A"
+                android:backgroundTint="#FFA726"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 
@@ -240,7 +240,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="Donate"
-                android:background="#F57C2A"
+                android:backgroundTint="#FFA726"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 
@@ -314,7 +314,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="Donate"
-                android:background="#F57C2A"
+                android:backgroundTint="#FFA726"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 
