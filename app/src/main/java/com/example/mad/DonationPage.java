@@ -1,5 +1,6 @@
 package com.example.mad;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -111,8 +112,23 @@ public class DonationPage extends AppCompatActivity {
                 return;
             }
 
+            SharedPreferences prefs = getSharedPreferences(DonationData.donation_data, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+
+            // Example: user donated to Sudan
+            int donationAmount = selectedAmount; // from radio/custom input
+
+            int currentRaised = prefs.getInt(DonationData.sudan_raised, 12500);
+            int newRaised = currentRaised + donationAmount;
+
+            editor.putInt(DonationData.sudan_raised, newRaised);
+            editor.apply();
+
+
+
             // Navigate to success page
             Intent intent = new Intent(DonationPage.this, DonationSuccess.class);
+            intent.putExtra("country", "Sudan");
             intent.putExtra("donationAmount", selectedAmount);
             startActivity(intent);
         });

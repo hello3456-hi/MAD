@@ -1,5 +1,6 @@
 package com.example.mad;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -36,6 +37,19 @@ public class CampaignPage extends AppCompatActivity {
         donateUkraine.setOnClickListener(v -> openDonationPage());
         donateIndia.setOnClickListener(v -> openDonationPage());
         donateVietnam.setOnClickListener(v -> openDonationPage());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = getSharedPreferences(DonationData.donation_data, MODE_PRIVATE);
+
+        int sudanRaised = prefs.getInt(DonationData.sudan_raised, 12500);
+        int sudanProgress = (int) ((sudanRaised * 100.0f) / DonationData.sudan_goal);
+
+        ProgressBar sudanBar = findViewById(R.id.progress_sudan);
+        sudanBar.setProgress(sudanProgress);
     }
 
     // ---------- Function to calculate and update progress ----------

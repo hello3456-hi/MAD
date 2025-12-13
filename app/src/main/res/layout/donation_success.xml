@@ -61,6 +61,7 @@
                 android:textColor="#333333" />
 
             <TextView
+                android:id="@+id/donation_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$5, equivalent to 1 meal"
@@ -84,6 +85,15 @@
                 android:text="Progress of Goal"
                 android:textStyle="bold"
                 android:textSize="17sp"
+                android:textColor="#333333"
+                android:paddingBottom="4dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sudan"
+                android:textStyle="bold"
+                android:textSize="16sp"
                 android:textColor="#333333"/>
 
             <ProgressBar
@@ -91,13 +101,14 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="2dp"
                 android:max="100"
                 android:progress="60"
                 android:progressTint="#4CAF50"
                 android:indeterminate="false"/>
 
             <TextView
+                android:id="@+id/goal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Goal: $12505 / $20000"
