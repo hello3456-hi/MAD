@@ -12,17 +12,19 @@ import android.widget.TextView;
 
 public class DonationSuccess extends AppCompatActivity {
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n") // Remove Warning
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.donation_success);
 
+        // ---------- Find Dynamically Changed Items ----------
         ProgressBar progressBar = findViewById(R.id.progress_goal);
         TextView donationAmountText = findViewById(R.id.donation_amount);
         TextView goalText = findViewById(R.id.goal);
         TextView countryText = findViewById(R.id.country_name);
 
+        // ---------- Declare Country and Donation Amount ----------
         String country = getIntent().getStringExtra("country");
         int donationAmount = getIntent().getIntExtra("donationAmount", 0);
 
@@ -58,6 +60,7 @@ public class DonationSuccess extends AppCompatActivity {
         donationAmountText.setText("$" + donationAmount + ", equivalent to " + (donationAmount / 5) + " meal(s)");
         goalText.setText("Goal: $" + raised + " / $" + goal);
 
+        // ---------- Function to Return to Campaign Page
         Button returnBtn = findViewById(R.id.return_to_campaign);
         returnBtn.setOnClickListener(v -> {
             Intent intent = new Intent(DonationSuccess.this, CampaignPage.class);

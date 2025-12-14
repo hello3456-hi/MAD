@@ -14,19 +14,10 @@ import android.widget.TextView;
 
 public class DonationPage extends AppCompatActivity {
 
-    // Amount RadioButtons
     RadioButton r5, r10, r25, r50, r100, r200;
-
-    // Custom amount
     EditText customAmount;
-
-    // Donation description
     TextView mealDescription;
-
-    // Payment methods
     RadioButton payCredit, payPayPal, payApple;
-
-    // Donate button
     Button donateBtn;
 
     int selectedAmount = 0;  // stores the final donation amount
@@ -77,13 +68,13 @@ public class DonationPage extends AppCompatActivity {
         r100.setOnClickListener(v -> selectPresetAmount(100));
         r200.setOnClickListener(v -> selectPresetAmount(200));
 
-        // Create an array of all preset buttons
+        // ---------- Create an array of all preset buttons ----------
         RadioButton[] presetButtons = {r5, r10, r25, r50, r100, r200};
 
-        // When a preset button is clicked
+        // ---------- Function for Clicked Amount (Only One Selectable) ----------
         for (RadioButton btn : presetButtons) {
             btn.setOnClickListener(v -> {
-                selectedAmount = Integer.parseInt(btn.getText().toString().replace("$","")); // assuming text like "$5"
+                selectedAmount = Integer.parseInt(btn.getText().toString().replace("$",""));
                 customAmount.setText(""); // clear custom
                 // uncheck all others
                 for (RadioButton otherBtn : presetButtons) {
@@ -122,7 +113,7 @@ public class DonationPage extends AppCompatActivity {
         });
 
 
-        // ----------- Payment Method (Only one selectable) -----------
+        // ----------- Payment Method (Only One Selectable) -----------
         payCredit.setOnClickListener(v -> clearPaymentExcept(payCredit));
         payPayPal.setOnClickListener(v -> clearPaymentExcept(payPayPal));
         payApple.setOnClickListener(v -> clearPaymentExcept(payApple));
@@ -131,7 +122,7 @@ public class DonationPage extends AppCompatActivity {
         // ----------- Donate Button -----------
         donateBtn.setOnClickListener(v -> {
 
-            // Ensure user selects at least amount & payment
+            // ---------- Ensure user selects at least 1 amount & payment ----------
             if (selectedAmount <= 0) {
                 customAmount.setError("Please enter or select a donation amount");
                 return;
@@ -142,14 +133,16 @@ public class DonationPage extends AppCompatActivity {
                 return;
             }
 
+            // ---------- Save Donation Information ----------
             SharedPreferences prefs = getSharedPreferences(DonationData.donation_data, MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
 
-            // Example: user donated to Sudan
-            int donationAmount = selectedAmount; // from radio/custom input
+
+            int donationAmount = selectedAmount;
 
             int currentRaised = 0;
 
+            // ---------- Donation to Different Countries ----------
             switch (country) {
                 case "Sudan":
                     currentRaised = prefs.getInt(DonationData.sudan_raised, 12500);
@@ -175,7 +168,7 @@ public class DonationPage extends AppCompatActivity {
             editor.apply();
 
 
-            // Navigate to success page
+            // ---------- Navigate to success page ----------
             Intent intent = new Intent(DonationPage.this, DonationSuccess.class);
             intent.putExtra("country", country);
             intent.putExtra("donationAmount", selectedAmount);
@@ -184,7 +177,7 @@ public class DonationPage extends AppCompatActivity {
     }
 
 
-    // ------------ Helper: When user taps a preset amount ------------
+    // ------------ When User Taps a Preset Amount ------------
     private void selectPresetAmount(int amount) {
         selectedAmount = amount;
 
@@ -194,7 +187,7 @@ public class DonationPage extends AppCompatActivity {
         updateMealDescription();
     }
 
-    // ------------ Helper: Update donation description dynamically ------------
+    // ------------ Update Donation Description Dynamically ------------
     private void updateMealDescription() {
         int meals = selectedAmount / 5;  // floor division
 
@@ -203,7 +196,6 @@ public class DonationPage extends AppCompatActivity {
             return;
         }
 
-        // Correct grammar
         if (meals == 1) {
             mealDescription.setText("Donates 1 Meal");
         } else {
@@ -211,7 +203,7 @@ public class DonationPage extends AppCompatActivity {
         }
     }
 
-    // ------------ Helper: Uncheck all preset amount buttons ------------
+    // ------------ Uncheck All Preset Amount Buttons ------------
     private void clearPresetSelection() {
         r5.setChecked(false);
         r10.setChecked(false);
@@ -221,7 +213,7 @@ public class DonationPage extends AppCompatActivity {
         r200.setChecked(false);
     }
 
-    // ------------ Helper: Payment selection (only one at a time) ------------
+    // ------------ Payment Selection (Only One Selectable) ------------
     private void clearPaymentExcept(RadioButton selected) {
         payCredit.setChecked(selected == payCredit);
         payPayPal.setChecked(selected == payPayPal);

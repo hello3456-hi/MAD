@@ -2,8 +2,8 @@
     android:shape="rectangle">
 
     <gradient
-        android:startColor="#FFA726"
-        android:endColor="#FFCA28"
+        android:startColor="#4CAF50"
+        android:endColor="#4CAF50"
         android:angle="0"/>
 
     <!-- Rounded corners -->
@@ -11,5 +11,5 @@
 
     <stroke
         android:width="2dp"
-        android:color="#F57C00"/>
+        android:color="#2E7D32"/>
 </shape>

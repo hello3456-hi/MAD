@@ -15,24 +15,25 @@ public class CampaignPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campaign_page);
 
-        // ---------- 1. Find all Progress Bars ----------
+        // ---------- Find all Progress Bars ----------
         ProgressBar sudanBar = findViewById(R.id.progress_sudan);
         ProgressBar ukraineBar = findViewById(R.id.progress_ukraine);
         ProgressBar indiaBar = findViewById(R.id.progress_india);
         ProgressBar vietnamBar = findViewById(R.id.progress_vietnam);
 
-        // ---------- 2. Update Progress Bars ----------
+        // ---------- Update Progress Bars ----------
         updateProgress(sudanBar, 12500, 20000);
         updateProgress(ukraineBar, 8700, 15000);
         updateProgress(indiaBar, 5200, 10000);
         updateProgress(vietnamBar, 18300, 25000);
 
-        // ---------- 3. Donate Buttons ----------
+        // ---------- Donate Buttons ----------
         Button donateSudan = findViewById(R.id.donate_sudan);
         Button donateUkraine = findViewById(R.id.donate_ukraine);
         Button donateIndia = findViewById(R.id.donate_india);
         Button donateVietnam = findViewById(R.id.donate_vietnam);
 
+        // ---------- Open Corresponding Donation Page ----------
         donateSudan.setOnClickListener(v -> openDonationPage("Sudan"));
         donateUkraine.setOnClickListener(v -> openDonationPage("Ukraine"));
         donateIndia.setOnClickListener(v -> openDonationPage("India"));
@@ -40,6 +41,7 @@ public class CampaignPage extends AppCompatActivity {
 
     }
 
+    // ---------- Function to Update Campaign Page Dynamically After Donations ----------
     @Override
     protected void onResume() {
         super.onResume();
@@ -53,13 +55,13 @@ public class CampaignPage extends AppCompatActivity {
         sudanBar.setProgress(sudanProgress);
     }
 
-    // ---------- Function to calculate and update progress ----------
+    // ---------- Function to Calculate and Update Progress ----------
     private void updateProgress(ProgressBar bar, int raised, int goal) {
         int percentage = (int) (((double) raised / goal) * 100);
         bar.setProgress(percentage);
     }
 
-    // ---------- Function to open donation page ----------
+    // ---------- Function to Open Donation Page ----------
     private void openDonationPage(String country) {
         Intent intent = new Intent(CampaignPage.this, DonationPage.class);
         intent.putExtra("country", country);
