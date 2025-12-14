@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "27399930440",
+    "project_id": "mad-assing",
+    "storage_bucket": "mad-assing.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27399930440:android:0cfaa5a9a039d9dea7ce7d",
+        "android_client_info": {
+          "package_name": "com.example.mad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_bgwBpI4x0KyEuONmE2cNUS4sl-0_Nmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
