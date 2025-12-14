@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MAD</string>
+    <string name="choose_a_campaign">Choose a Campaign</string>
+    <string name="select_a_cause_you_want_to_support">Select a cause you want to support</string>
+    <string name="school_meals_program">School Meals Program</string>
+    <string name="provide_nutritious_meals_to_children_in_schools">Provide nutritious meals to children in schools</string>
+    <string name="_12_500_raised">$12,500 raised</string>
+    <string name="goal_20_000">Goal: $20,000</string>
+    <string name="donate_now">Donate Now</string>
+    <string name="back"><![CDATA[< back]]></string>
+    <string name="Back"><![CDATA[< Back]]></string>
 </resources>
