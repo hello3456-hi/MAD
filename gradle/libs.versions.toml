@@ -8,10 +8,10 @@ material = "1.13.0"
 activity = "1.12.0"
 constraintlayout = "2.2.1"
 googleGmsGoogleServices = "4.4.4"
-firebaseAuth = "24.0.1"
 kotlin = "1.9.22"
 coreKtx = "1.17.0"
 swiperefreshlayout = "1.1.0"
+firebaseBom = "33.6.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -21,9 +21,10 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth"}
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
