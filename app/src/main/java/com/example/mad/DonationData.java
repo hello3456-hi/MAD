@@ -19,7 +19,6 @@ public class DonationData {
     public static final int india_goal = 10000;
     public static final int vietnam_goal = 25000;
 
-    // --- THIS WAS MISSING ---
     // A static list to store real donations while the app is running
     public static List<Donation> historyList = new ArrayList<>();
 }
