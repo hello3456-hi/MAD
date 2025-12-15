@@ -36,7 +36,7 @@ public class CampaignPage extends AppCompatActivity {
         progIndia = findViewById(R.id.progress_india);
         progVietnam = findViewById(R.id.progress_vietnam);
 
-        // 2. Initialize Text Views (Make sure you added IDs in XML)
+        // 2. Initialize Text Views
         txtSudanRaised = findViewById(R.id.text_raised_sudan);
         txtUkraineRaised = findViewById(R.id.text_raised_ukraine);
         txtIndiaRaised = findViewById(R.id.text_raised_india);
@@ -59,7 +59,6 @@ public class CampaignPage extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottomNavigation);
 
         if (bottomNavigation != null) {
-            // Set the "Campaigns" icon as selected (Because we are on CampaignPage)
             bottomNavigation.setSelectedItemId(R.id.navigation_campaigns);
 
             bottomNavigation.setOnItemSelectedListener(item -> {
@@ -91,14 +90,14 @@ public class CampaignPage extends AppCompatActivity {
         }
     }
 
-    // This runs EVERY time the page appears (updates bars automatically)
+    // This runs every time the page appears
     @Override
     protected void onResume() {
         super.onResume();
         refreshCampaignData();
     }
 
-    // Helper to setup buttons
+    // Setup buttons
     private void setupDonateButton(Button btn, String countryName) {
         if (btn != null) {
             btn.setOnClickListener(v -> {

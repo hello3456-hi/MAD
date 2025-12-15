@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class DonationPage extends AppCompatActivity {
 
@@ -110,6 +113,21 @@ public class DonationPage extends AppCompatActivity {
                 payCredit.setError("Select a payment method"); // Just setting error on one radio to show msg
                 return;
             }
+//Get Current Date
+            String currentDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
+
+// Create the Donation Object
+// Assuming your Donation class constructor is: Donation(Name, Date, Amount, Meals)
+            Donation newDonation = new Donation(
+                    country,                // Campaign Name (e.g., "Sudan")
+                    currentDate,            // Date
+                    selectedAmount,         // Amount
+                    selectedAmount / 5      // Meals
+            );
+
+// Add to the Global List (at the top of the list)
+            DonationData.historyList.add(0, newDonation);
+
 
             // 1. Get current data
             SharedPreferences prefs = getSharedPreferences(DonationData.donation_data, MODE_PRIVATE);
