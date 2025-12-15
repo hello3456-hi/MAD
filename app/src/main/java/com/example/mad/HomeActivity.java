@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
             tvUserEmail.setText("Guest User");
         }
 
-        // Set up Bottom Navigation
+        // Bottom Navigation
         bottomNavigation.setSelectedItemId(R.id.navigation_home);
         bottomNavigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();

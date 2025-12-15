@@ -1,16 +1,13 @@
 package com.example.mad;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -49,16 +46,18 @@ public class DonationHistoryActivity extends AppCompatActivity {
 
         // Set up SwipeRefreshLayout
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_orange_dark));
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            // Simulate refresh with delay
-            new Handler().postDelayed(() -> {
-                loadDonationData();
-                donationAdapter.updateList(donationList);
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(this, "Donations refreshed", Toast.LENGTH_SHORT).show();
-            }, 1500);
-        });
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_orange_dark));
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                // Simulate refresh with delay
+                new Handler().postDelayed(() -> {
+                    loadDonationData();
+                    donationAdapter.updateList(donationList);
+                    swipeRefreshLayout.setRefreshing(false);
+                    Toast.makeText(this, "Donations refreshed", Toast.LENGTH_SHORT).show();
+                }, 1500);
+            });
+        }
 
         // Set up Tab Layout for filtering
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -109,20 +108,27 @@ public class DonationHistoryActivity extends AppCompatActivity {
         }
     }
 
+
     private void loadDonationData() {
+        // 1. Create a temporary list for the display
         donationList = new ArrayList<>();
 
-        // Sample donation history data
-        donationList.add(new Donation("Sudan Food Crisis Relief", "Dec 10, 2024", 50, 200));
-        donationList.add(new Donation("Ukraine Emergency Aid", "Nov 28, 2024", 100, 400));
-        donationList.add(new Donation("India Hunger Relief", "Nov 15, 2024", 25, 100));
-        donationList.add(new Donation("Vietnam Food Support", "Oct 30, 2024", 75, 300));
-        donationList.add(new Donation("Sudan Food Crisis Relief", "Oct 15, 2024", 100, 400));
+        // 2. Add REAL new donations from static storage
+        if (DonationData.historyList != null && !DonationData.historyList.isEmpty()) {
+            donationList.addAll(DonationData.historyList);
+        }
+
+        // 3. OLD records
+        donationList.add(new Donation("Sudan Food Crisis Relief", "Dec 10, 2024", 50, 10));
+        donationList.add(new Donation("Ukraine Emergency Aid", "Nov 28, 2024", 100, 20));
+        donationList.add(new Donation("India Hunger Relief", "Nov 15, 2024", 25, 5));
+        donationList.add(new Donation("Vietnam Food Support", "Oct 30, 2024", 75, 15));
+        donationList.add(new Donation("Sudan Food Crisis Relief", "Oct 15, 2024", 100, 20));
     }
 
     private void filterDonations(int tabPosition) {
         // Filter based on tab position (0=All Time, 1=This Month, 2=Last Month, 3=This Year)
-        // For demo purposes, we show all donations
+        // For now, we just update the list to show everything
         donationAdapter.updateList(donationList);
     }
 }

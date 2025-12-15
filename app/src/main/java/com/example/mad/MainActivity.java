@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    // --- HELPER: Show/Hide Loading ---
+    // Show/Hide Loading
     private void showLoading(boolean show) {
         progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
         btnLogin.setEnabled(!show);
