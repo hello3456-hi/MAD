@@ -1,16 +1,15 @@
 package com.example.mad;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
-
+import androidx.appcompat.app.AppCompatActivity;
 
 public class DonationPage extends AppCompatActivity {
 
@@ -19,23 +18,25 @@ public class DonationPage extends AppCompatActivity {
     TextView mealDescription;
     RadioButton payCredit, payPayPal, payApple;
     Button donateBtn;
+    TextView btnBack;
 
-    int selectedAmount = 0;  // stores the final donation amount
+    int selectedAmount = 0;
+    RadioButton[] presetButtons; // Helper array for clearing selections
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.donation_page);
 
+        // Retrieve country from previous page
         String country = getIntent().getStringExtra("country");
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        TextView btnBack = findViewById(R.id.btn_back);
-
-        // ----------- Find Amount Buttons -----------
+        // ----------- Initialize Views -----------
+        btnBack = findViewById(R.id.btn_back);
         r5 = findViewById(R.id.r_amount5);
         r10 = findViewById(R.id.r_amount10);
         r25 = findViewById(R.id.r_amount25);
@@ -45,45 +46,30 @@ public class DonationPage extends AppCompatActivity {
 
         customAmount = findViewById(R.id.custom_amount);
         mealDescription = findViewById(R.id.meal_description);
-
         payCredit = findViewById(R.id.payCredit);
         payPayPal = findViewById(R.id.payPayPal);
         payApple = findViewById(R.id.payApple);
-
         donateBtn = findViewById(R.id.donate_food);
 
+        // Group buttons for easy clearing
+        presetButtons = new RadioButton[]{r5, r10, r25, r50, r100, r200};
+
+        // ----------- Navigation -----------
         btnBack.setOnClickListener(v -> {
+            // Go back to CampaignPage without creating a new duplicate instance
             Intent intent = new Intent(DonationPage.this, CampaignPage.class);
-
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
             startActivity(intent);
         });
 
         // ----------- Handle Amount Selection -----------
+        // We use explicit values here to avoid parsing errors from text (e.g. "$5")
         r5.setOnClickListener(v -> selectPresetAmount(5));
         r10.setOnClickListener(v -> selectPresetAmount(10));
         r25.setOnClickListener(v -> selectPresetAmount(25));
         r50.setOnClickListener(v -> selectPresetAmount(50));
         r100.setOnClickListener(v -> selectPresetAmount(100));
         r200.setOnClickListener(v -> selectPresetAmount(200));
-
-        // ---------- Create an array of all preset buttons ----------
-        RadioButton[] presetButtons = {r5, r10, r25, r50, r100, r200};
-
-        // ---------- Function for Clicked Amount (Only One Selectable) ----------
-        for (RadioButton btn : presetButtons) {
-            btn.setOnClickListener(v -> {
-                selectedAmount = Integer.parseInt(btn.getText().toString().replace("$",""));
-                customAmount.setText(""); // clear custom
-                // uncheck all others
-                for (RadioButton otherBtn : presetButtons) {
-                    if (otherBtn != btn) otherBtn.setChecked(false);
-                }
-                updateMealDescription();
-            });
-        }
-
 
         // ----------- Custom Amount Logic -----------
         customAmount.addTextChangedListener(new TextWatcher() {
@@ -92,83 +78,69 @@ public class DonationPage extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().isEmpty()) {
+                if (s.toString().isEmpty()) return;
 
-                    // Uncheck all preset buttons
-                    clearPresetSelection();
+                // Uncheck all preset buttons if user types custom amount
+                clearPresetSelection();
 
-                    // Convert input to integer
-                    try {
-                        selectedAmount = Integer.parseInt(s.toString());
-                    } catch (Exception e) {
-                        selectedAmount = 0;
-                    }
-
-                    updateMealDescription();
+                try {
+                    selectedAmount = Integer.parseInt(s.toString());
+                } catch (NumberFormatException e) {
+                    selectedAmount = 0;
                 }
+                updateMealDescription();
             }
 
             @Override
             public void afterTextChanged(Editable s) {}
         });
 
-
         // ----------- Payment Method (Only One Selectable) -----------
         payCredit.setOnClickListener(v -> clearPaymentExcept(payCredit));
         payPayPal.setOnClickListener(v -> clearPaymentExcept(payPayPal));
         payApple.setOnClickListener(v -> clearPaymentExcept(payApple));
 
-
         // ----------- Donate Button -----------
         donateBtn.setOnClickListener(v -> {
-
-            // ---------- Ensure user selects at least 1 amount & payment ----------
             if (selectedAmount <= 0) {
                 customAmount.setError("Please enter or select a donation amount");
                 return;
             }
-
             if (!payCredit.isChecked() && !payPayPal.isChecked() && !payApple.isChecked()) {
-                payCredit.setError("Select a payment method");
+                payCredit.setError("Select a payment method"); // Just setting error on one radio to show msg
                 return;
             }
 
-            // ---------- Save Donation Information ----------
+            // 1. Get current data
             SharedPreferences prefs = getSharedPreferences(DonationData.donation_data, MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
 
-
-            int donationAmount = selectedAmount;
-
             int currentRaised = 0;
 
-            // ---------- Donation to Different Countries ----------
-            switch (country) {
-                case "Sudan":
-                    currentRaised = prefs.getInt(DonationData.sudan_raised, 12500);
-                    editor.putInt(DonationData.sudan_raised, currentRaised + donationAmount);
-                    break;
-
-                case "Ukraine":
-                    currentRaised = prefs.getInt(DonationData.ukraine_raised, 8700);
-                    editor.putInt(DonationData.ukraine_raised, currentRaised + donationAmount);
-                    break;
-
-                case "India":
-                    currentRaised = prefs.getInt(DonationData.india_raised, 5200);
-                    editor.putInt(DonationData.india_raised, currentRaised + donationAmount);
-                    break;
-
-                case "Vietnam":
-                    currentRaised = prefs.getInt(DonationData.vietnam_raised, 18300);
-                    editor.putInt(DonationData.vietnam_raised, currentRaised + donationAmount);
-                    break;
+            // 2. Update the specific country's total
+            if (country != null) {
+                switch (country) {
+                    case "Sudan":
+                        currentRaised = prefs.getInt(DonationData.sudan_raised, 12500);
+                        editor.putInt(DonationData.sudan_raised, currentRaised + selectedAmount);
+                        break;
+                    case "Ukraine":
+                        currentRaised = prefs.getInt(DonationData.ukraine_raised, 8700);
+                        editor.putInt(DonationData.ukraine_raised, currentRaised + selectedAmount);
+                        break;
+                    case "India":
+                        currentRaised = prefs.getInt(DonationData.india_raised, 5200);
+                        editor.putInt(DonationData.india_raised, currentRaised + selectedAmount);
+                        break;
+                    case "Vietnam":
+                        currentRaised = prefs.getInt(DonationData.vietnam_raised, 18300);
+                        editor.putInt(DonationData.vietnam_raised, currentRaised + selectedAmount);
+                        break;
+                }
+                editor.apply(); // IMPORTANT: This saves it to storage immediately
             }
 
-            editor.apply();
-
-
-            // ---------- Navigate to success page ----------
+            // 3. Move to Success Page
             Intent intent = new Intent(DonationPage.this, DonationSuccess.class);
             intent.putExtra("country", country);
             intent.putExtra("donationAmount", selectedAmount);
@@ -176,44 +148,40 @@ public class DonationPage extends AppCompatActivity {
         });
     }
 
-
-    // ------------ When User Taps a Preset Amount ------------
     private void selectPresetAmount(int amount) {
         selectedAmount = amount;
+        customAmount.setText(""); // Clear custom input
 
-        // Clear custom input
-        customAmount.setText("");
+        // Ensure the correct button is visually checked
+        // (This loop handles the visual state if selectPresetAmount is called programmatically)
+        for (RadioButton btn : presetButtons) {
+            btn.setChecked(false);
+        }
+
+        // Check the specific button matching the amount
+        if (amount == 5) r5.setChecked(true);
+        else if (amount == 10) r10.setChecked(true);
+        else if (amount == 25) r25.setChecked(true);
+        else if (amount == 50) r50.setChecked(true);
+        else if (amount == 100) r100.setChecked(true);
+        else if (amount == 200) r200.setChecked(true);
 
         updateMealDescription();
     }
 
-    // ------------ Update Donation Description Dynamically ------------
     private void updateMealDescription() {
-        int meals = selectedAmount / 5;  // floor division
-
-        if (meals <= 0) {
-            mealDescription.setText("Donates 0 Meals");
-            return;
-        }
-
-        if (meals == 1) {
-            mealDescription.setText("Donates 1 Meal");
-        } else {
-            mealDescription.setText("Donates " + meals + " Meals");
-        }
+        int meals = selectedAmount / 5;
+        if (meals <= 0) mealDescription.setText("Donates 0 Meals");
+        else if (meals == 1) mealDescription.setText("Donates 1 Meal");
+        else mealDescription.setText("Donates " + meals + " Meals");
     }
 
-    // ------------ Uncheck All Preset Amount Buttons ------------
     private void clearPresetSelection() {
-        r5.setChecked(false);
-        r10.setChecked(false);
-        r25.setChecked(false);
-        r50.setChecked(false);
-        r100.setChecked(false);
-        r200.setChecked(false);
+        for (RadioButton btn : presetButtons) {
+            btn.setChecked(false);
+        }
     }
 
-    // ------------ Payment Selection (Only One Selectable) ------------
     private void clearPaymentExcept(RadioButton selected) {
         payCredit.setChecked(selected == payCredit);
         payPayPal.setChecked(selected == payPayPal);

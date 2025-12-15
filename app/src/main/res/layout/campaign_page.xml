@@ -67,6 +67,7 @@
                     android:gravity="center_vertical">
 
                     <TextView
+                        android:id="@+id/text_raised_sudan"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -141,6 +142,7 @@
                     android:gravity="center_vertical">
 
                     <TextView
+                        android:id="@+id/text_raised_ukraine"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -215,6 +217,7 @@
                     android:gravity="center_vertical">
 
                     <TextView
+                        android:id="@+id/text_raised_india"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -289,6 +292,7 @@
                     android:gravity="center_vertical">
 
                     <TextView
+                        android:id="@+id/text_raised_vietnam"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

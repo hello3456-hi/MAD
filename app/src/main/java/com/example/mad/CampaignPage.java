@@ -1,103 +1,151 @@
 package com.example.mad;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class CampaignPage extends AppCompatActivity {
 
+    // Declare Progress Bars
+    private ProgressBar progSudan, progUkraine, progIndia, progVietnam;
+
+    // Declare Text Views for "Raised Amount"
+    private TextView txtSudanRaised, txtUkraineRaised, txtIndiaRaised, txtVietnamRaised;
+
+    // Declare Donate Buttons
+    private Button btnSudan, btnUkraine, btnIndia, btnVietnam;
+
+    // Bottom Navigation
     private BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSharedPreferences(DonationData.donation_data, MODE_PRIVATE).edit().clear().apply();
         setContentView(R.layout.campaign_page);
 
-        // Set up Bottom Navigation
+        // 1. Initialize Progress Bars
+        progSudan = findViewById(R.id.progress_sudan);
+        progUkraine = findViewById(R.id.progress_ukraine);
+        progIndia = findViewById(R.id.progress_india);
+        progVietnam = findViewById(R.id.progress_vietnam);
+
+        // 2. Initialize Text Views (Make sure you added IDs in XML)
+        txtSudanRaised = findViewById(R.id.text_raised_sudan);
+        txtUkraineRaised = findViewById(R.id.text_raised_ukraine);
+        txtIndiaRaised = findViewById(R.id.text_raised_india);
+        txtVietnamRaised = findViewById(R.id.text_raised_vietnam);
+
+        // 3. Initialize Buttons
+        btnSudan = findViewById(R.id.donate_sudan);
+        btnUkraine = findViewById(R.id.donate_ukraine);
+        btnIndia = findViewById(R.id.donate_india);
+        btnVietnam = findViewById(R.id.donate_vietnam);
+
+        // 4. Setup Button Listeners
+        setupDonateButton(btnSudan, "Sudan");
+        setupDonateButton(btnUkraine, "Ukraine");
+        setupDonateButton(btnIndia, "India");
+        setupDonateButton(btnVietnam, "Vietnam");
+
+
+        // 5. BOTTOM NAVIGATION
         bottomNavigation = findViewById(R.id.bottomNavigation);
-        bottomNavigation.setSelectedItemId(R.id.navigation_campaigns);
-        bottomNavigation.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
 
-            if (itemId == R.id.navigation_home) {
-                startActivity(new Intent(CampaignPage.this, HomeActivity.class));
-                finish();
-                return true;
-            } else if (itemId == R.id.navigation_campaigns) {
-                // Already on Campaigns
-                return true;
-            } else if (itemId == R.id.navigation_ngos) {
-                startActivity(new Intent(CampaignPage.this, NGOListActivity.class));
-                finish();
-                return true;
-            } else if (itemId == R.id.navigation_history) {
-                startActivity(new Intent(CampaignPage.this, DonationHistoryActivity.class));
-                finish();
-                return true;
-            } else if (itemId == R.id.navigation_profile) {
-                startActivity(new Intent(CampaignPage.this, ProfileActivity.class));
-                finish();
-                return true;
-            }
+        if (bottomNavigation != null) {
+            // Set the "Campaigns" icon as selected (Because we are on CampaignPage)
+            bottomNavigation.setSelectedItemId(R.id.navigation_campaigns);
 
-            return false;
-        });
+            bottomNavigation.setOnItemSelectedListener(item -> {
+                int itemId = item.getItemId();
 
-        // ---------- Find all Progress Bars ----------
-        ProgressBar sudanBar = findViewById(R.id.progress_sudan);
-        ProgressBar ukraineBar = findViewById(R.id.progress_ukraine);
-        ProgressBar indiaBar = findViewById(R.id.progress_india);
-        ProgressBar vietnamBar = findViewById(R.id.progress_vietnam);
+                if (itemId == R.id.navigation_home) {
+                    startActivity(new Intent(CampaignPage.this, HomeActivity.class));
+                    finish();
+                    return true;
+                } else if (itemId == R.id.navigation_campaigns) {
+                    // We are already here, do nothing
+                    return true;
+                } else if (itemId == R.id.navigation_ngos) {
+                    startActivity(new Intent(CampaignPage.this, NGOListActivity.class));
+                    finish();
+                    return true;
+                } else if (itemId == R.id.navigation_history) {
+                    startActivity(new Intent(CampaignPage.this, DonationHistoryActivity.class));
+                    finish();
+                    return true;
+                } else if (itemId == R.id.navigation_profile) {
+                    startActivity(new Intent(CampaignPage.this, ProfileActivity.class));
+                    finish();
+                    return true;
+                }
 
-        // ---------- Update Progress Bars ----------
-        updateProgress(sudanBar, 12500, 20000);
-        updateProgress(ukraineBar, 8700, 15000);
-        updateProgress(indiaBar, 5200, 10000);
-        updateProgress(vietnamBar, 18300, 25000);
-
-        // ---------- Donate Buttons ----------
-        Button donateSudan = findViewById(R.id.donate_sudan);
-        Button donateUkraine = findViewById(R.id.donate_ukraine);
-        Button donateIndia = findViewById(R.id.donate_india);
-        Button donateVietnam = findViewById(R.id.donate_vietnam);
-
-        // ---------- Open Corresponding Donation Page ----------
-        donateSudan.setOnClickListener(v -> openDonationPage("Sudan"));
-        donateUkraine.setOnClickListener(v -> openDonationPage("Ukraine"));
-        donateIndia.setOnClickListener(v -> openDonationPage("India"));
-        donateVietnam.setOnClickListener(v -> openDonationPage("Vietnam"));
-
+                return false;
+            });
+        }
     }
 
-    // ---------- Function to Update Campaign Page Dynamically After Donations ----------
+    // This runs EVERY time the page appears (updates bars automatically)
     @Override
     protected void onResume() {
         super.onResume();
+        refreshCampaignData();
+    }
 
+    // Helper to setup buttons
+    private void setupDonateButton(Button btn, String countryName) {
+        if (btn != null) {
+            btn.setOnClickListener(v -> {
+                Intent intent = new Intent(CampaignPage.this, DonationPage.class);
+                intent.putExtra("country", countryName);
+                startActivity(intent);
+            });
+        }
+    }
+
+    // The main function to update UI from SharedPreferences
+    @SuppressLint("SetTextI18n")
+    private void refreshCampaignData() {
         SharedPreferences prefs = getSharedPreferences(DonationData.donation_data, MODE_PRIVATE);
 
+        // --- SUDAN ---
         int sudanRaised = prefs.getInt(DonationData.sudan_raised, 12500);
-        int sudanProgress = (int) ((sudanRaised * 100.0f) / DonationData.sudan_goal);
+        int sudanGoal = DonationData.sudan_goal;
+        if (progSudan != null) progSudan.setProgress(calculateProgress(sudanRaised, sudanGoal));
+        if (txtSudanRaised != null) txtSudanRaised.setText("$" + formatNumber(sudanRaised) + " raised");
 
-        ProgressBar sudanBar = findViewById(R.id.progress_sudan);
-        sudanBar.setProgress(sudanProgress);
+        // --- UKRAINE ---
+        int ukraineRaised = prefs.getInt(DonationData.ukraine_raised, 8700);
+        int ukraineGoal = DonationData.ukraine_goal;
+        if (progUkraine != null) progUkraine.setProgress(calculateProgress(ukraineRaised, ukraineGoal));
+        if (txtUkraineRaised != null) txtUkraineRaised.setText("$" + formatNumber(ukraineRaised) + " raised");
+
+        // --- INDIA ---
+        int indiaRaised = prefs.getInt(DonationData.india_raised, 5200);
+        int indiaGoal = DonationData.india_goal;
+        if (progIndia != null) progIndia.setProgress(calculateProgress(indiaRaised, indiaGoal));
+        if (txtIndiaRaised != null) txtIndiaRaised.setText("$" + formatNumber(indiaRaised) + " raised");
+
+        // --- VIETNAM ---
+        int vietnamRaised = prefs.getInt(DonationData.vietnam_raised, 18300);
+        int vietnamGoal = DonationData.vietnam_goal;
+        if (progVietnam != null) progVietnam.setProgress(calculateProgress(vietnamRaised, vietnamGoal));
+        if (txtVietnamRaised != null) txtVietnamRaised.setText("$" + formatNumber(vietnamRaised) + " raised");
     }
 
-    // ---------- Function to Calculate and Update Progress ----------
-    private void updateProgress(ProgressBar bar, int raised, int goal) {
-        int percentage = (int) (((double) raised / goal) * 100);
-        bar.setProgress(percentage);
+    private int calculateProgress(int raised, int goal) {
+        if (goal <= 0) return 0;
+        int progress = (int) ((raised * 100.0f) / goal);
+        return Math.min(progress, 100);
     }
 
-    // ---------- Function to Open Donation Page ----------
-    private void openDonationPage(String country) {
-        Intent intent = new Intent(CampaignPage.this, DonationPage.class);
-        intent.putExtra("country", country);
-        startActivity(intent);
+    private String formatNumber(int number) {
+        return String.format("%,d", number);
     }
 }
