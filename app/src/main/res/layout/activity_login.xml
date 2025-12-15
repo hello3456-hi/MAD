@@ -34,6 +34,18 @@
         android:minHeight="48dp"
         android:layout_marginBottom="24dp"/>
 
+    <TextView
+        android:id="@+id/tvForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot Password?"
+        android:layout_marginBottom="16dp"
+        android:textSize="14sp"
+        android:textColor="#FF6200"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_gravity="end" />
+
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
@@ -42,6 +54,14 @@
         android:textSize="16sp"
         android:backgroundTint="#FF6200"
         android:textColor="#FFFFFF"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:indeterminateTint="#FF6200" />
 
     <TextView
         android:id="@+id/tvShowSignUp"

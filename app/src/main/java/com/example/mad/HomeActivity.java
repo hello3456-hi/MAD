@@ -3,49 +3,100 @@ package com.example.mad;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast; // We need this for the logout message
+import android.widget.Toast;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HomeActivity extends AppCompatActivity { // <--- EXTEND THIS CLASS
+public class HomeActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private TextView tvWelcome;
-    private Button btnLogout;
+    private TextView tvWelcome, tvUserEmail;
+    private BottomNavigationView bottomNavigation;
+    private MaterialCardView cardDonate, cardNGOs, cardHistory, cardProfile;
+    private MaterialButton btnViewCampaigns;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // 1. Initialize Firebase Auth
+        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // 2. Link UI elements
+        // Link UI elements
         tvWelcome = findViewById(R.id.tvWelcome);
-        btnLogout = findViewById(R.id.btnLogout);
+        tvUserEmail = findViewById(R.id.tvUserEmail);
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+        cardDonate = findViewById(R.id.cardDonate);
+        cardNGOs = findViewById(R.id.cardNGOs);
+        cardHistory = findViewById(R.id.cardHistory);
+        cardProfile = findViewById(R.id.cardProfile);
+        btnViewCampaigns = findViewById(R.id.btnViewCampaigns);
 
-        // 3. Display a welcome message using the current user's email
+        // Display welcome message
         if (mAuth.getCurrentUser() != null) {
             String email = mAuth.getCurrentUser().getEmail();
-            tvWelcome.setText("Welcome to FoodBridge, " + email + "!");
+            tvWelcome.setText("Welcome back!");
+            tvUserEmail.setText(email);
         } else {
             tvWelcome.setText("Welcome to FoodBridge!");
+            tvUserEmail.setText("Guest User");
         }
 
-        // 4. Implement Logout logic
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut(); // Sign out the user from Firebase
-                Toast.makeText(HomeActivity.this, "Logged out successfully.", Toast.LENGTH_SHORT).show();
+        // Set up Bottom Navigation
+        bottomNavigation.setSelectedItemId(R.id.navigation_home);
+        bottomNavigation.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
 
-                // Navigate back to Login screen
-                startActivity(new Intent(HomeActivity.this, MainActivity.class));
-                finish(); // Close HomeActivity so 'Back' button doesn't return here
+            if (itemId == R.id.navigation_home) {
+                // Already on home
+                return true;
+            } else if (itemId == R.id.navigation_campaigns) {
+                startActivity(new Intent(HomeActivity.this, CampaignPage.class));
+                return true;
+            } else if (itemId == R.id.navigation_ngos) {
+                startActivity(new Intent(HomeActivity.this, NGOListActivity.class));
+                return true;
+            } else if (itemId == R.id.navigation_history) {
+                startActivity(new Intent(HomeActivity.this, DonationHistoryActivity.class));
+                return true;
+            } else if (itemId == R.id.navigation_profile) {
+                startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+                return true;
             }
+
+            return false;
         });
+
+        // Card click listeners
+        cardDonate.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, CampaignPage.class));
+        });
+
+        cardNGOs.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, NGOListActivity.class));
+        });
+
+        cardHistory.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, DonationHistoryActivity.class));
+        });
+
+        cardProfile.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+        });
+
+        btnViewCampaigns.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, CampaignPage.class));
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reset bottom navigation selection when returning to home
+        bottomNavigation.setSelectedItemId(R.id.navigation_home);
     }
 }

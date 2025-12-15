@@ -6,4 +6,11 @@
     </style>
 
     <style name="Theme.MAD" parent="Base.Theme.MAD" />
+
+    <!-- Splash Screen Theme - No Action Bar, Full Screen -->
+    <style name="Theme.MAD.NoActionBar" parent="Theme.MAD">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">#FF6B4A</item>
+    </style>
 </resources>

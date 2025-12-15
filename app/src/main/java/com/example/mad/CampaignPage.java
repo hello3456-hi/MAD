@@ -7,13 +7,46 @@ import android.content.Intent;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CampaignPage extends AppCompatActivity {
+
+    private BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campaign_page);
+
+        // Set up Bottom Navigation
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+        bottomNavigation.setSelectedItemId(R.id.navigation_campaigns);
+        bottomNavigation.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.navigation_home) {
+                startActivity(new Intent(CampaignPage.this, HomeActivity.class));
+                finish();
+                return true;
+            } else if (itemId == R.id.navigation_campaigns) {
+                // Already on Campaigns
+                return true;
+            } else if (itemId == R.id.navigation_ngos) {
+                startActivity(new Intent(CampaignPage.this, NGOListActivity.class));
+                finish();
+                return true;
+            } else if (itemId == R.id.navigation_history) {
+                startActivity(new Intent(CampaignPage.this, DonationHistoryActivity.class));
+                finish();
+                return true;
+            } else if (itemId == R.id.navigation_profile) {
+                startActivity(new Intent(CampaignPage.this, ProfileActivity.class));
+                finish();
+                return true;
+            }
+
+            return false;
+        });
 
         // ---------- Find all Progress Bars ----------
         ProgressBar sudanBar = findViewById(R.id.progress_sudan);

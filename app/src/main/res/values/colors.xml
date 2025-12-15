@@ -1,7 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary Brand Colors -->
+    <color name="primary">#FF6B4A</color>
+    <color name="primary_dark">#E55A3A</color>
+    <color name="primary_light">#FF8A6A</color>
+
+    <!-- Background Colors -->
+    <color name="background">#FAFAFA</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="card_background">#FFFFFF</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#9E9E9E</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- Accent Colors for Icons -->
+    <color name="accent_red">#FF6B4A</color>
+    <color name="accent_green">#4CAF50</color>
+    <color name="accent_blue">#2196F3</color>
+    <color name="accent_purple">#9C27B0</color>
+
+    <!-- Icon Background Colors (Light tints) -->
+    <color name="icon_bg_red">#FFF0ED</color>
+    <color name="icon_bg_green">#E8F5E9</color>
+    <color name="icon_bg_blue">#E3F2FD</color>
+    <color name="icon_bg_purple">#F3E5F5</color>
+
+    <!-- Bottom Navigation -->
     <color name="bottom_nav_selected">#FF6B4A</color>
-    <color name="bottom_nav_unselected">#999999</color>
+    <color name="bottom_nav_unselected">#9E9E9E</color>
+
+    <!-- Divider and Border -->
+    <color name="divider">#EEEEEE</color>
+    <color name="border">#E0E0E0</color>
+
+    <!-- Status Colors -->
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+    <color name="error">#F44336</color>
 </resources>

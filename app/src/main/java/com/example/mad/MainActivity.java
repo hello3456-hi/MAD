@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText etEmailLogin, etPasswordLogin;
     private Button btnLogin;
-    private TextView tvShowSignUp;
+    private TextView tvShowSignUp, tvForgotPassword;
+    private ProgressBar progressBar;
     private FirebaseAuth mAuth;
 
     @Override
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         etPasswordLogin = findViewById(R.id.etPasswordLogin);
         btnLogin = findViewById(R.id.btnLogin);
         tvShowSignUp = findViewById(R.id.tvShowSignUp);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        progressBar = findViewById(R.id.progressBar);
 
         // 3. Login Button Click
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showSignUpDialog();
+            }
+        });
+
+        // 5. Forgot Password Click
+        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showForgotPasswordDialog();
             }
         });
     }
@@ -80,10 +92,14 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // Show loading spinner
+        showLoading(true);
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        showLoading(false);
                         if (task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(MainActivity.this, HomeActivity.class));
@@ -93,6 +109,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    // --- HELPER: Show/Hide Loading ---
+    private void showLoading(boolean show) {
+        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        btnLogin.setEnabled(!show);
+        etEmailLogin.setEnabled(!show);
+        etPasswordLogin.setEnabled(!show);
     }
 
     // --- LOGIC 2: SHOW POPUP & SIGN UP ---
@@ -138,6 +162,45 @@ public class MainActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     Toast.makeText(MainActivity.this, "Sign Up Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+            }
+        });
+    }
+
+    // --- LOGIC 3: FORGOT PASSWORD ---
+    private void showForgotPasswordDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_forgot_password, null);
+        builder.setView(dialogView);
+
+        final EditText etEmailReset = dialogView.findViewById(R.id.etEmailReset);
+        Button btnResetPassword = dialogView.findViewById(R.id.btnResetPassword);
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        btnResetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = etEmailReset.getText().toString().trim();
+
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(MainActivity.this, "Please enter your email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                mAuth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(MainActivity.this, "Password reset email sent!", Toast.LENGTH_LONG).show();
+                                    dialog.dismiss();
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
